@@ -1,33 +1,33 @@
-# Usar uma imagem base do Golang
-FROM golang:1.23.1 as builder
+# Usar uma imagem base do Go
+FROM golang:1.23.1 AS builder
 
-# Define o diretório de trabalho
+# Definir o diretório de trabalho
 WORKDIR /app
 
-# Copia os arquivos go.mod e go.sum
+# Copiar o go.mod e go.sum para o diretório de trabalho
 COPY go.mod go.sum ./
 
-# Baixa as dependências
+# Baixar as dependências
 RUN go mod download
 
-# Copia o código fonte
+# Copiar o código da aplicação
 COPY . .
 
-# Compila a aplicação
-RUN go build -o main .
+# Compilar a aplicação
+RUN go build -o schedules schedules.go
 
-# Imagem final
-FROM alpine:latest
+# Usar uma imagem mais leve para rodar a aplicação
+FROM gcr.io/distroless/base
 
-# Instala o netcat
-RUN apk add --no-cache netcat-openbsd
-
-# Define o diretório de trabalho
+# Definir o diretório de trabalho
 WORKDIR /app
 
-# Copia o binário da imagem builder
-COPY --from=builder /app/main .
+# Copiar o executável da imagem builder
+COPY --from=builder /app/schedules .
 
+
+# Expor a porta da aplicação
+EXPOSE 8080
 
 # Comando para rodar a aplicação
-CMD ["./main"]
+CMD ["./schedule"]

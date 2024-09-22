@@ -32,18 +32,13 @@ func init() {
 func generateSchedules() []Schedule {
 	var newSchedules []Schedule
 
-	location, err := time.LoadLocation("America/Sao_Paulo")
-	if err != nil {
-		panic(err)
-	}
-
 	// Intervalo da manhã: 09:00 - 12:00
-	morningStart := time.Date(2024, 9, 22, 9, 0, 0, 0, location)
-	morningEnd := time.Date(2024, 9, 22, 12, 0, 0, 0, location)
+	morningStart := time.Date(2024, 9, 22, 9, 0, 0, 0, time.UTC)
+	morningEnd := time.Date(2024, 9, 22, 12, 0, 0, 0, time.UTC)
 
 	// Intervalo da tarde: 14:00 - 17:00
-	afternoonStart := time.Date(2024, 9, 22, 14, 0, 0, 0, location)
-	afternoonEnd := time.Date(2024, 9, 22, 17, 0, 0, 0, location)
+	afternoonStart := time.Date(2024, 9, 22, 14, 0, 0, 0, time.UTC)
+	afternoonEnd := time.Date(2024, 9, 22, 17, 0, 0, 0, time.UTC)
 
 	// Gera os horários da manhã
 	for t := morningStart; t.Before(morningEnd); t = t.Add(15 * time.Minute) {
