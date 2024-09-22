@@ -19,7 +19,6 @@ var db *gorm.DB
 
 func init() {
 	var err error
-	// Conexão com o banco de dados PostgreSQL
 	dsn := os.Getenv("DATABASE_URL")
 	db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {

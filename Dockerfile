@@ -19,8 +19,15 @@ RUN go build -o main .
 # Imagem final
 FROM alpine:latest
 
+# Instala o netcat
+RUN apk add --no-cache netcat-openbsd
+
+# Define o diretório de trabalho
+WORKDIR /app
+
 # Copia o binário da imagem builder
 COPY --from=builder /app/main .
+
 
 # Comando para rodar a aplicação
 CMD ["./main"]
