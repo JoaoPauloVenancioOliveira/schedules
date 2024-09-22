@@ -6,6 +6,7 @@ import (
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"net/http"
+	"os"
 	"time"
 )
 
@@ -19,7 +20,7 @@ var db *gorm.DB
 func init() {
 	var err error
 	// Conexão com o banco de dados PostgreSQL
-	dsn := "user=postgres password=postgres dbname=schedule_db host=localhost port=5432 sslmode=disable"
+	dsn := os.Getenv("DATABASE_URL")
 	db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		panic("failed to connect database")
